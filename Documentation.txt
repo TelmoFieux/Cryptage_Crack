@@ -1,0 +1,137 @@
+Documentation Projet info partie 1 : Cryptage
+
+Fichier utils.c :
+
+il contient 2 fonction utilitaires :
+
+unsigned char* padding(unsigned char *data,size_t newlen)
+/******************************************************************************
+ * Génère un nouvelle clé de taille newlen à partir de l'ancienne clé qui sera
+ * cyclé autant que nécessaire
+ * Exemple : padding("rutabaga", 16) = "rutabagarutabaga"
+ *****************************************************************************/
+
+
+unsigned char* gen_key(size_t len)
+ /******************************************************************************
+ * Génère un clé de longueur len composé de caractère alphanumérique aléatoires
+ *****************************************************************************/
+
+
+
+ Fichier chiffrement.c :
+
+ Il contient 4 fonction de cryptage :
+
+
+void chiffrement_xor_file(unsigned char* mess_filename, unsigned char* key, unsigned char* crypted_mess_filename)
+ /******************************************************************************
+ * Génère un message crypté ou décrypté écris dans le fichier crypted_mess_filename a partir
+ * d'une clé et d'un message se trouvant dans mess_filename avec la méthode xor
+ *****************************************************************************/
+
+
+void chiffrement_xor_mask_file(unsigned char* mess_filename, unsigned char* crypted_mess_filename)
+ /******************************************************************************
+ * Génère un message crypté écris dans le fichier crypted_mess_filename a partir
+ * d'une clé généré aléatoirement et d'un message se trouvant dans mess_filename
+ * avec la méthode xor avec mask aléatoire jetable.
+ * la clé généré aléatoirement est stocké dans le fichier keyfile.txt
+ * Pour décrypté le message généré, utiliser chiffrement_xor_file avec comme clé
+ * la clé qui se trouve dans le fichier keyfile.txt
+ *****************************************************************************/
+
+
+void cbc_crypt(char* mess_file_name, unsigned char* vecteur, unsigned char* key, char* crypted_mess_file_name)
+ /******************************************************************************
+ * Génère un message crypté écris dans le fichier crypted_mess_filename a partir
+ * d'une clé, d'un vecteur et d'un message se trouvant dans mess_filename
+ * avec la méthode CBC
+ *****************************************************************************/
+
+
+void cbc_uncrypt(char* mess_file_name, unsigned char* vecteur, unsigned char* key, char* uncrypted_mess_file_name)
+ /******************************************************************************
+ * Génère un message décrypté écris dans le fichier uncrypted_mess_filename a partir
+ * d'une clé identique a celle utilisé pour le cryptage,
+ * d'un vecteur identique aussi a celui utilisé pour le cryptage 
+ * et d'un message se trouvant dans mess_filename
+ * avec la méthode CBC
+ *****************************************************************************/
+
+Fichier sym_crypt.c :
+
+Il contient le programme principal a partir duquel on execute les autres fonctions.
+
+Compilation : gcc sym_crypt.c chiffrement.c utils.c dh_prime.c -o sym_crypt
+
+
+Documentation Partie 3 :
+
+fichier break_code_c1.c :
+
+list_t** crack_C1(const char* crypted_mess_filename, int keysize)
+/******************************************************************************
+ * Pour chaque position de la clé donne les caractère qui produisent un caractère 
+ * lisible une fois le xor effectué avec le fichier crypté.
+ *****************************************************************************/
+
+
+unsigned char** generate_combinations(list_t** key, int keysize, int* result_size) 
+/******************************************************************************
+* Génère le produit cartésiens de toute les caractère obtenu par la fonction crack_C1
+ *****************************************************************************/
+
+
+fichier break_code_c2.c :
+
+int* get_car_frequency(unsigned char* key, const char* filename, int keysize)
+/******************************************************************************
+* Pour une clé et un fichier crypté, fourni la proportion de chaque lettre dans
+le texte décodé
+ *****************************************************************************/
+
+
+int** get_all_frequency(const char* filename, unsigned char** keys, int NBkeys)
+/******************************************************************************
+* Applique la fonction get_car_frequency pour toute les clés
+ *****************************************************************************/
+
+
+unsigned char** crack_C2(const char* filename, unsigned char** keys, int NBkeys)
+/******************************************************************************
+* A partir des fréquence de chaque lettre, pour chaque clé, on va calculer
+la somme des écarts à la fréquence moyenne. On utilisera ensuite cette valeur
+pour effectuer un tri afin de ranger les clé dans l'ordre des décroissant. 
+Des plus proches de la fréquence observé aux plus éloignés.
+ *****************************************************************************/
+
+
+fichier break_code_c3.c :
+
+unsigned char** crack_c3(const char* filename, unsigned char** keys, int NBkeys,const char* dico_filename)
+/******************************************************************************
+* Trie les clés en fonction de la proportion de mot correcte une fois
+le texte décodé.
+ *****************************************************************************/
+
+
+float get_correct_words(unsigned char* key, const char* filename, int keysize, const char* dico_filename)
+/******************************************************************************
+* Renvoi la proportion de mot contenu dans le message décodé qui existent dans le 
+dictionnaire.
+ *****************************************************************************/
+
+
+bool binary_search_in_file(const char *filename, const char *target)
+/******************************************************************************
+* Recherche dichotomique sur un fichier
+ *****************************************************************************/
+
+fichier crack_mask.c :
+
+
+unsigned char* get_key(char * filename, int* size)
+/******************************************************************************
+* Extrait tout le contenu d'un fichier
+ *****************************************************************************/
