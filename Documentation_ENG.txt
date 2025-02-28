@@ -1,0 +1,133 @@
+Documentation :
+
+File utils.c :
+
+It contains 2 utility functions:
+
+unsigned char* padding(unsigned char *data,size_t newlen)
+/******************************************************************************
+* Generates a new key of size newlen from the old key, which will be cycled
+ * as many times as necessary.
+ * Example: padding("rutabaga", 16) = "rutabagarutabaga"
+ *****************************************************************************/
+
+
+unsigned char* gen_key(size_t len)
+ /******************************************************************************
+ * Generates a key of length len composed of random alphanumeric characters.
+ *****************************************************************************/
+
+
+
+File chiffrement.c :
+
+It contains 4 encryption functions:
+
+
+void chiffrement_xor_file(unsigned char* mess_filename, unsigned char* key, unsigned char* crypted_mess_filename)
+ /******************************************************************************
+ * Generates an encrypted or decrypted message written in the file crypted_mess_filename
+ * using a key and a message located in mess_filename with the XOR method.
+ *****************************************************************************/
+
+
+void chiffrement_xor_mask_file(unsigned char* mess_filename, unsigned char* crypted_mess_filename)
+ /******************************************************************************
+ * Generates an encrypted message written in the file crypted_mess_filename
+ * using a randomly generated key and a message located in mess_filename
+ * with the XOR method using a disposable random mask.
+ * The randomly generated key is stored in the file keyfile.txt.
+ * To decrypt the generated message, use chiffrement_xor_file with the key
+ * located in the file keyfile.txt.
+ *****************************************************************************/
+
+
+void cbc_crypt(char* mess_file_name, unsigned char* vecteur, unsigned char* key, char* crypted_mess_file_name)
+ /******************************************************************************
+ * Generates an encrypted message written in the file crypted_mess_filename
+ * using a key, a vector, and a message located in mess_filename
+ * with the CBC method.
+ *****************************************************************************/
+
+
+void cbc_uncrypt(char* mess_file_name, unsigned char* vecteur, unsigned char* key, char* uncrypted_mess_file_name)
+ /******************************************************************************
+ * Generates a decrypted message written in the file uncrypted_mess_filename
+ * using a key identical to the one used for encryption,
+ * a vector identical to the one used for encryption,
+ * and a message located in mess_filename
+ * with the CBC method.
+ *****************************************************************************/
+
+File sym_crypt.c :
+
+It contains the main program from which the other functions are executed.
+
+Compilation: gcc sym_crypt.c chiffrement.c utils.c dh_prime.c -o sym_crypt
+
+
+file break_code_c1.c :
+
+list_t** crack_C1(const char* crypted_mess_filename, int keysize)
+/******************************************************************************
+ * For each position of the key, provides the characters that produce a readable
+ * character once XOR is applied to the encrypted file.
+ *****************************************************************************/
+
+
+unsigned char** generate_combinations(list_t** key, int keysize, int* result_size) 
+/******************************************************************************
+ * Generates the Cartesian product of all characters obtained by the crack_C1 function.
+ *****************************************************************************/
+
+
+fichier break_code_c2.c :
+
+int* get_car_frequency(unsigned char* key, const char* filename, int keysize)
+/******************************************************************************
+ * For a key and an encrypted file, provides the proportion of each letter in
+ * the decoded text.
+ *****************************************************************************/
+
+
+int** get_all_frequency(const char* filename, unsigned char** keys, int NBkeys)
+/******************************************************************************
+ * Applies the get_car_frequency function for all keys.
+ *****************************************************************************/
+
+
+unsigned char** crack_C2(const char* filename, unsigned char** keys, int NBkeys)
+/******************************************************************************
+ * Based on the frequency of each letter, for each key, calculates the sum of
+ * deviations from the average frequency. This value is then used to sort the keys
+ * in descending order, from those closest to the observed frequency to those
+ * furthest away.
+ *****************************************************************************/
+
+
+File break_code_c3.c :
+
+unsigned char** crack_c3(const char* filename, unsigned char** keys, int NBkeys,const char* dico_filename)
+/******************************************************************************
+ * Sorts the keys based on the proportion of correct words once the text is decoded.
+ *****************************************************************************/
+
+
+float get_correct_words(unsigned char* key, const char* filename, int keysize, const char* dico_filename)
+/******************************************************************************
+ * Returns the proportion of words in the decoded message that exist in the dictionary.
+ *****************************************************************************/
+
+
+bool binary_search_in_file(const char *filename, const char *target)
+/******************************************************************************
+ * Binary search in a file.
+ *****************************************************************************/
+
+fichier crack_mask.c :
+
+
+unsigned char* get_key(char * filename, int* size)
+/******************************************************************************
+ * Extracts all the content of a file.
+ *****************************************************************************/
